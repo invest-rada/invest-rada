@@ -22,7 +22,7 @@ potential gains and overall score about stock which based on some set of metrics
 
 ## Quick Start
 
-- Clone the repo: `git clone https://github.com/malyarevich/invest-rada.git`
+- Clone the repo: `git clone https://github.com/invest-rada/invest-rada.git`
 
 #### <i>Prerequisites</i>
 

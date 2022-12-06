@@ -12,7 +12,7 @@ Before opening:
 - [Search for duplicate or closed issues](https://github.com/malayrevich/invest-rada/issues?utf8=%E2%9C%93&q=is%3Aissue)
 - [Validate](https://html5.validator.nu/) any HTML to avoid common problems
 - Read
-  the [contributing guidelines](https://github.com/malyarevich/invest-rada/blob/v4-dev/.github/CONTRIBUTING.md)
+  the [contributing guidelines](https://github.com/invest-rada/invest-rada/blob/v4-dev/.github/CONTRIBUTING.md)
 
 Bug reports must include:
 

@@ -20,8 +20,8 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest, macOS-latest]
-        node-version: [16.x, 18.x]
+        platform: [ ubuntu-latest, windows-latest, macOS-latest ]
+        node-version: [ 16.x, 18.x ]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Clone repository
@@ -37,3 +37,7 @@ jobs:
 
       - name: Run build
         run: npm run build
+
+      - name: Deploy
+        run: |
+          npm run deploy

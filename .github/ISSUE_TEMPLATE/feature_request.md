@@ -9,8 +9,8 @@ assignees: ''
 
 Before opening:
 
-- [Search for duplicate or closed issues](https://github.com/malyarevich/invest-rada/issues?utf8=%E2%9C%93&q=is%3Aissue)
-- Read the [contributing guidelines](https://github.com/malyarevich/invest-rada/blob/main/.github/CONTRIBUTING.md)
+- [Search for duplicate or closed issues](https://github.com/invest-rada/invest-rada/issues?utf8=%E2%9C%93&q=is%3Aissue)
+- Read the [contributing guidelines](https://github.com/invest-rada/invest-rada/blob/main/.github/CONTRIBUTING.md)
 
 Feature requests must include:
 

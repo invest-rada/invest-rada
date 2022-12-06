@@ -1,0 +1,44 @@
+<td class="text-center">
+  <c-avatar
+    size="md"
+    src="{{ user.avatar }}"
+    status="{{ user.status }}"
+  ></c-avatar>
+</td>
+<td>
+  <div>{{ user.name }}</div>
+  <div class="small text-medium-emphasis">
+    <span>{{ user.state }}</span> | Registered:
+    {{ user.registered }}
+  </div>
+</td>
+<td class="text-center">
+  <svg [title]="user.country" cIcon name="cif{{ user.country }}" size="xl"></svg>
+</td>
+<td>
+  <div class="clearfix">
+    <div class="float-start">
+      <strong>{{ user.usage }}%</strong>
+    </div>
+    <div class="float-end">
+      <small class="text-medium-emphasis">
+        {{ user.period }}
+      </small>
+    </div>
+  </div>
+  <c-progress thin
+  >
+    <c-progress-bar
+      [value]="user.usage"
+      color="{{ user.color }}"
+    ></c-progress-bar
+    >
+  </c-progress>
+</td>
+<td class="text-center">
+  <svg [title]="user.payment" cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+</td>
+<td>
+  <div class="small text-medium-emphasis">Last login</div>
+  <strong>{{ user.activity }}</strong>
+</td>

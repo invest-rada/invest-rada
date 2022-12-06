@@ -1,0 +1,16 @@
+<table *ngIf="isLengthPositive(list)" cTable>
+  <thead>
+  <tr>
+    <th class="col-6" scope="col"><strong>{{title}}</strong></th>
+    <th class="col-6" scope="col">Value</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let item of list">
+    <tr [cTableColor]="getColorBasedOnDeltaPercent(item.value)">
+      <th scope="row">{{item.name}}</th>
+      <td>{{item.value}}%</td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>

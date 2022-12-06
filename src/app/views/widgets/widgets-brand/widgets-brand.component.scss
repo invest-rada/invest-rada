@@ -1,0 +1,36 @@
+.clickable {
+  cursor: pointer;
+}
+
+.brand-item {
+  min-height: 20rem;
+
+  ::ng-deep {
+    .card-header {
+      min-height: 10rem;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-body > .col {
+      flex: 1 0 100%;
+      width: 100%;
+      min-height: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-body > .vr {
+      color: #999999;
+      width: 100%;
+      min-height: 1px;
+      margin-top: .5rem;
+    }
+  }
+}

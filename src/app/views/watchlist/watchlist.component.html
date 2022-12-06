@@ -1,0 +1,11 @@
+<ng-container *ngIf="isLoaded(dataStore$ | async); else loading">
+  <app-widgets-brand
+    [brandData]="brandData"
+    [labels]="labels"
+    [withCharts]="true"
+  ></app-widgets-brand>
+</ng-container>
+
+<ng-template #loading>
+  <c-spinner></c-spinner>
+</ng-template>

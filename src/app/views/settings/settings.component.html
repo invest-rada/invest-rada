@@ -1,0 +1,50 @@
+<c-callout class="bg-white:dark:bg-transparent" color="info">
+  <ng-container *ngTemplateOutlet="default"></ng-container>
+</c-callout>
+<ng-template #default>
+  <ng-container *ngIf="(currentUser$ | async); else loading">
+    <div class="d-flex gap-4 align-items-center justify-content-center">
+      <c-avatar
+        size="xl"
+        src="{{ (currentUser$ | async)?.avatar }}"
+      ></c-avatar>
+      <span class="display-6">{{(currentUser$ | async)?.name}}</span>
+      <svg [title]="(currentUser$ | async)?.country" cIcon name="cif{{ (currentUser$ | async)?.country }}"
+           size="xxl"></svg>
+    </div>
+  </ng-container>
+</ng-template>
+
+<c-row>
+
+  <c-col lg="6" xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        Metrics priority
+      </c-card-header>
+      <c-card-body>
+        <c-chart [data]="radarChartData" [options]="radarChartOptions" type="radar"></c-chart>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col lg="6" xs="12">
+    <c-card class="mb-4">
+      <c-card-header>Metrics priority adjusting</c-card-header>
+      <c-card-body>
+        <ng-container *ngFor="let metric of userMetricList">
+          <label [for]="metric.key" cLabel>{{getMetricName(metric.key)}} -
+            <strong>{{getPriorityName(metric.priority)}}</strong></label>
+          <input (change)="changeMetricPriority(metric.key, $event.target)" [(ngModel)]="metric.priority"
+                 [id]="metric.key"
+                 [max]="5" [min]="0" cFormControl type="range"/>
+        </ng-container>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<ng-template #loading>
+  <c-spinner></c-spinner>
+</ng-template>

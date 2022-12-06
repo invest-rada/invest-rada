@@ -1,0 +1,107 @@
+<ng-container *ngIf="symbol; else symbol404">
+  <ng-container *ngIf="!isLoading; else loader">
+    <c-alert
+      (click)="toggleFeedbackCollapse()"
+      [color]="getResultColorBasedOnDeltaPercent(resultToBuy)"
+      class="cursor-pointer position-relative"
+    >
+      <strong>
+        {{verbalRecommendation}}
+        ({{resultToBuy}} points)
+      </strong>
+      <svg cIcon class="end-icon" name="cil-balance-scale" size="xl" title="Balance Icon"></svg>
+    </c-alert>
+    <div [visible]="visibleFeedback" cCollapse class="my-3">
+      <c-card class="shadow">
+        <c-card-header>Main movers</c-card-header>
+        <c-card-body>
+          <app-estimate-table [list]="(posList$ | async)" title="Pos"></app-estimate-table>
+          <app-estimate-table [list]="(consList$ | async)" title="Cons"></app-estimate-table>
+          <ng-container *ngIf="!isLengthPositive((posList$ | async)) && !isLengthPositive((consList$ | async))">
+            Instrument has no big personal oriented movers.
+          </ng-container>
+        </c-card-body>
+      </c-card>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <div class="small text-medium-emphasis">
+          <b>{{name}} ({{symbol}})</b> in <b>{{sector}}</b> sector
+        </div>
+      </c-card-header>
+      <c-card-body>
+        <c-row>
+          <c-col sm="5">
+            <h4 class="card-title mb-0" id="traffic">
+              Robot analytics
+            </h4>
+          </c-col>
+        </c-row>
+        <c-chart
+          [data]="mainChart.data"
+          [height]="300"
+          [ngStyle]="{'marginTop.px': 40}"
+          [options]="mainChart.options"
+          [type]="mainChart.type">
+          Main chart
+        </c-chart>
+      </c-card-body>
+      <c-card-footer>
+        <c-row [md]="5" [xs]="1" class="text-center">
+          <c-col *ngFor="let metric of userMetrics" class="mb-sm-2 mb-0">
+            <div class="text-medium-emphasis">{{getMetricByKey(metric.key)}}</div>
+            <strong>{{getAbsoluteDeltaByKey(metric.key)}}
+              ({{getUserOrientedDeltaValueByKey(metric.key)}}%)</strong>
+            <c-progress class="mt-2" thin>
+              <c-progress-bar
+                [color]="getColorBasedOnDeltaPercent(getUserOrientedDeltaValueByKey(metric.key))"
+                [value]="calculateProgressBarByKey(metric.key)"></c-progress-bar>
+            </c-progress>
+          </c-col>
+        </c-row>
+      </c-card-footer>
+    </c-card>
+    <c-accordion>
+      <c-accordion-item #item0="cAccordionItem" [visible]="false">
+        <ng-template cTemplateId="accordionHeaderTemplate">
+          <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
+            All metrics
+          </button>
+        </ng-template>
+        <ng-template cTemplateId="accordionBodyTemplate">
+          <div class="accordion-body">
+            <table cTable>
+              <thead>
+              <tr>
+                <th scope="col">Metric</th>
+                <th scope="col">Value</th>
+                <th scope="col">Sector Value</th>
+                <th scope="col">Delta</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let key of fundamentalKeys">
+                <th scope="row">{{key}}</th>
+                <td>{{getCompanyValueByKey(key)}}</td>
+                <td>{{getSectorValueByKey(key)}}</td>
+                <td>
+                  <app-delta-indicator [delta]="getDeltaValueByKey(key)"></app-delta-indicator>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </c-accordion-item>
+    </c-accordion>
+  </ng-container>
+</ng-container>
+<ng-template #loader>
+  <c-spinner color="primary"></c-spinner>
+</ng-template>
+
+<ng-template #symbol404>
+  <div class="container">
+    <app-page404 (onSearch)="searchSymbol($event)" [height]="70"></app-page404>
+  </div>
+</ng-template>

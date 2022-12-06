@@ -1,0 +1,16 @@
+<h2 class="display-6 my-4">All available features:</h2>
+
+<c-row class="features">
+  <c-card *ngFor="let feature of featureList" class="features__card">
+    <c-card-header class="card-header" style="background-color: {{feature.bgColor}}">
+      <svg cIcon class="text-white" height="100" name="{{feature.icon}}"></svg>
+    </c-card-header>
+    <c-card-body>
+      <div>
+        <h5 cCardTitle>{{feature.title}}</h5>
+        <p cCardText>{{feature.description}}</p>
+      </div>
+      <a cButton color="dark" cCol="12" routerLink="{{feature.routerLink}}">{{feature.routerTitle}}</a>
+    </c-card-body>
+  </c-card>
+</c-row>

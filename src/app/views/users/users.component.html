@@ -1,0 +1,60 @@
+<c-callout class="bg-white:dark:bg-transparent" color="info">
+  <ng-container *ngTemplateOutlet="default"></ng-container>
+</c-callout>
+<ng-template #default>
+  <ng-container *ngIf="(currentUser$ | async); else loading">
+    <div class="d-flex gap-4 align-items-center justify-content-center">
+      <c-avatar
+        size="xl"
+        src="{{ (currentUser$ | async)?.avatar }}"
+      ></c-avatar>
+      <span class="display-6">{{(currentUser$ | async)?.name}}</span>
+      <svg [title]="(currentUser$ | async)?.country" cIcon name="cif{{ (currentUser$ | async)?.country }}"
+           size="xxl"></svg>
+    </div>
+  </ng-container>
+</ng-template>
+
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>User List</c-card-header>
+      <c-card-body>
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          align="middle"
+          cTable
+          class="mb-0 border"
+        >
+          <thead cTableColor="light">
+          <tr>
+            <th class="text-center">
+              <svg cIcon name="cilPeople"></svg>
+            </th>
+            <th>User</th>
+            <th class="text-center">Country</th>
+            <th>Usage</th>
+            <th class="text-center">Payment Method</th>
+            <th>Activity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let user of users; index as i">
+            <tr
+              (click)="onSelectUser(user.userId)"
+              [user]="user"
+              app-user-row
+            ></tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<ng-template #loading>
+  <c-spinner></c-spinner>
+</ng-template>

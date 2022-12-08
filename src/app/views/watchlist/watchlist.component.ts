@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { get } from 'lodash-es';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { flatten, get, some } from 'lodash-es';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { MetricEnum } from '../../models/user-data.model';
 import { BrandDataService } from '../../services/brand-data.service';
 import { FundamentalDataService } from '../../services/fundamental-data.service';
@@ -19,10 +20,14 @@ const mockedColors = {
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.scss']
 })
-export class WatchlistComponent implements OnInit {
+export class WatchlistComponent implements OnInit, OnDestroy {
   dataStore$ = this.stocksData.dataStore$;
-  brandData: any;
+  brandData: any[] = [];
+  filteredBrandData: any[] = [];
   labels: string[];
+  #destroy$: Subject<void> = new Subject<void>();
+  #filterText: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  filterText$: Observable<string> = this.#filterText.asObservable();
 
   constructor(
     private stocksData: FundamentalDataService,
@@ -35,8 +40,31 @@ export class WatchlistComponent implements OnInit {
     this.labels = labels;
   }
 
+  get filterText(): string {
+    return this.#filterText.getValue();
+  }
+
+  set filterText(value: string) {
+    this.#filterText.next(value);
+  }
+
   ngOnInit(): void {
     this.initBrands()
+    this.filterText$.pipe(takeUntil(this.#destroy$)).subscribe({
+      next: (filterText) => this.updateFilteredData(filterText),
+    });
+  }
+
+  updateFilteredData(filterText: string) {
+    this.filteredBrandData = this.brandData.filter((data: { values: object[] }) => {
+      const phraseList = flatten(data.values.map(obj => Object.values(obj)));
+      return some(phraseList, phrase => phrase.toLowerCase().includes(filterText.toLowerCase()));
+    });
+  }
+
+
+  updateFilterText(event: Event) {
+    this.filterText = (event.target as HTMLInputElement).value;
   }
 
   isLoaded(store: any): boolean {
@@ -44,7 +72,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   initBrands() {
-    this.dataStore$.subscribe(store => {
+    this.dataStore$.pipe(takeUntil(this.#destroy$)).subscribe(store => {
       const itemList = Object.keys(store).map(key => store[key]);
       this.brandData = itemList.map(item => {
         return {
@@ -73,6 +101,12 @@ export class WatchlistComponent implements OnInit {
         };
 
       });
+      this.updateFilteredData(this.filterText)
     });
+  }
+
+  ngOnDestroy(): void {
+    this.#destroy$.next();
+    this.#destroy$.complete();
   }
 }

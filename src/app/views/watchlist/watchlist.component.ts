@@ -78,7 +78,7 @@ export class WatchlistComponent implements OnInit, OnDestroy {
         return {
           icon: this.brand.getIconBySymbol(item.Symbol),
           symbol: item.Symbol,
-          values: [{ title: item.Symbol, value: item.Name }, { title: item.Industry }],
+          values: [{ title: item.Symbol, value: item.Name }, { value: item.Sector, title: item.Industry }],
           capBg: { '--cui-card-cap-bg': this.brand.getColorBySymbol(item.Symbol) },
           labels: [...this.labels],
           style: [{}],

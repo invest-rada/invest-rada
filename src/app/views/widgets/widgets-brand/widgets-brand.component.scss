@@ -23,7 +23,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
     }
 
     .card-body > .vr {
@@ -31,6 +30,20 @@
       width: 100%;
       min-height: 1px;
       margin-top: .5rem;
+    }
+
+    .card-body > .col:last-of-type {
+      justify-content: center;
+      flex-grow: 0;
+      padding-top: 0.5rem;
+
+      .fs-5 {
+        font-size: small !important;
+      }
+
+      .small {
+        font-size: x-small !important;
+      }
     }
   }
 }
